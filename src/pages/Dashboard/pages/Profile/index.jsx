@@ -26,9 +26,12 @@ const Profile = () => {
       try {
         setIsLoading(true);
 
-        const res = await axios.get("http://localhost:8000/users/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users/profile`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
 
         setProfile(res.data.user);
         setFormData({
@@ -86,11 +89,15 @@ const Profile = () => {
         fd.append("image", formData.image);
       }
 
-      const res = await axios.put("http://localhost:8000/users/update", fd, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await axios.put(
+        `${import.meta.env.VITE_API_URL}/users/update`,
+        fd,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       setProfile(res.data.user);
       setEditMode(false);

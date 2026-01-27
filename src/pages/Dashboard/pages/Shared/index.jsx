@@ -29,9 +29,12 @@ const Shared = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/notes/shared", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/notes/shared`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
         setNotes(res.data.notes || []);
       } catch {
         message.error("Failed to load notes");
@@ -44,9 +47,12 @@ const Shared = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/users/all", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users/all`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
         // Exclude current user
         setUsers(res.data.users.filter((u) => u._id !== user._id));
       } catch {
@@ -73,7 +79,7 @@ const Shared = () => {
   const updateNote = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:8000/notes/update/${activeNote._id}`,
+        `${import.meta.env.VITE_API_URL}/notes/update/${activeNote._id}`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -99,7 +105,7 @@ const Shared = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:8000/notes/share/${activeNote._id}`,
+        `${import.meta.env.VITE_API_URL}/notes/share/${activeNote._id}`,
         { sharedWith: selectedUsers },
         { headers: { Authorization: `Bearer ${token}` } },
       );

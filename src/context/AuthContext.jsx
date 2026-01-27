@@ -27,11 +27,14 @@ const AuthProvider = ({ children }) => {
     }
 
     try {
-      const res = await axios.get("http://localhost:8000/users/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       setState({
         isAuth: true,

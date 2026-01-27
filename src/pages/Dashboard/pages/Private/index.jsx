@@ -37,9 +37,12 @@ const Private = () => {
     const fetchNotes = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:8000/notes/read", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/notes/read`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
         setNotes(res.data.notes || []);
       } catch {
         message.error("Failed to load notes");
@@ -54,9 +57,12 @@ const Private = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/users/all", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users/all`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
         setUsers(res.data.users || []);
       } catch {
         message.error("Failed to load users");

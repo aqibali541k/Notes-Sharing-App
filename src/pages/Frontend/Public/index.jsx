@@ -18,9 +18,12 @@ const Public = () => {
     const fetchNotes = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:8000/notes/public", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/notes/public`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
         setNotes(res.data.notes);
       } catch (error) {
         console.error("Error fetching public notes");

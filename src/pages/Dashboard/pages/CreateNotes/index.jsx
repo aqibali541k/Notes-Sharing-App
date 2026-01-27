@@ -28,7 +28,7 @@ const CreateNotes = () => {
       return message.warning("Title and content are required");
 
     try {
-      await axios.post("http://localhost:8000/notes/create", state, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/notes/create`, state, {
         headers: { Authorization: `Bearer ${token}` },
       });
       message.success("✨ Note saved");

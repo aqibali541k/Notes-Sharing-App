@@ -22,9 +22,12 @@ const ResetPassword = () => {
   // when form is submitted successfully
   const handleSubmit = async () => {
     try {
-      const res = await axios.post("http://localhost:8000/users/reset-password-request", {
-        email: state.email,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/reset-password-request`,
+        {
+          email: state.email,
+        },
+      );
 
       message.success(res.data.message); // show success
       console.log("Reset Link:", res.data.resetLink); // just for dev
@@ -43,7 +46,11 @@ const ResetPassword = () => {
     <>
       <div className="flex justify-center items-center min-h-screen bg-blue-700">
         <div className="max-w-sm sm:max-w-2xl md:max-w-2xl lg:max-w-xl w-full p-6 rounded-2xl bg-gray-700 shadow-lg">
-          <Form layout="vertical" onFinish={handleSubmit} onFinishFailed={handleFailed}>
+          <Form
+            layout="vertical"
+            onFinish={handleSubmit}
+            onFinishFailed={handleFailed}
+          >
             <Row>
               <Col span={24}>
                 <Title level={2} className="!text-center !text-white">
