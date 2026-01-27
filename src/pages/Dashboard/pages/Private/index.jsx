@@ -167,7 +167,7 @@ const Private = () => {
                       onClick={async () => {
                         try {
                           const res = await axios.put(
-                            `http://localhost:8000/notes/privacy/${note._id}`,
+                            `${import.meta.env.VITE_API_URL}/notes/privacy/${note._id}`,
                             { isPrivate: !note.isPrivate },
                             {
                               headers: {
@@ -198,7 +198,7 @@ const Private = () => {
                       onClick={async () => {
                         try {
                           await axios.delete(
-                            `http://localhost:8000/notes/delete/${note._id}`,
+                            `${import.meta.env.VITE_API_URL}/notes/delete/${note._id}`,
                             {
                               headers: {
                                 Authorization: `Bearer ${token}`,
@@ -234,7 +234,7 @@ const Private = () => {
         onOk={async () => {
           try {
             const res = await axios.put(
-              `http://localhost:8000/notes/update/${currentNote._id}`,
+              `${import.meta.env.VITE_API_URL}/notes/update/${currentNote._id}`,
               formData,
               {
                 headers: { Authorization: `Bearer ${token}` },
@@ -287,7 +287,7 @@ const Private = () => {
           }
           try {
             const res = await axios.post(
-              `http://localhost:8000/notes/share/${shareNote._id}`,
+              `${import.meta.env.VITE_API_URL}/notes/share/${shareNote._id}`,
               { sharedWith: selectedUsers },
               {
                 headers: { Authorization: `Bearer ${token}` },
