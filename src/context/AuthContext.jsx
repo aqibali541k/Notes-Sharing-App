@@ -1,53 +1,89 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import ScreenLoader from "../components/ScreenLoader";
 
+// 1. Create context
 const AuthContext = createContext();
 
+// 2. Initial state
+const initialState = {
+  isAuth: false,
+  user: null,
+  token: "",
+};
+
+// 3. AuthProvider
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [state, setState] = useState(initialState);
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
-  // 🔁 Load from localStorage on refresh
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
+  // 4. Fetch profile
+  const fetchProfile = async () => {
+    const token = localStorage.getItem("authToken");
 
-    if (storedUser && storedToken) {
-      setUser(JSON.parse(storedUser));
-      setToken(storedToken);
+    if (!token) {
+      setIsAppLoading(false);
+      return;
     }
-    setLoading(false);
+
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setState({
+        isAuth: true,
+        user: res.data.user, // ✅ FIX IS HERE
+        token,
+      });
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      handleLogout();
+    } finally {
+      setIsAppLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
   }, []);
 
-  const login = (userData, jwtToken) => {
-    setUser(userData);
-    setToken(jwtToken);
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", jwtToken);
+  // 5. Login
+  const handleLogin = (user, token) => {
+    localStorage.setItem("authToken", token);
+    setState({ isAuth: true, user, token });
   };
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.clear();
+  // 6. Register
+  const handleRegister = (user, token) => {
+    localStorage.setItem("authToken", token);
+    setState({ isAuth: true, user, token });
   };
 
-  // 🔥 THIS FIXES PROFILE RELOAD ISSUE
-  const updateUser = (updatedUser) => {
-    setUser(updatedUser);
-    localStorage.setItem("user", JSON.stringify(updatedUser));
+  // 7. Logout
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setState(initialState);
   };
 
+  // 8. Global loader
+  if (isAppLoading) return <ScreenLoader />;
+
+  // 9. Provider
   return (
     <AuthContext.Provider
       value={{
-        user,
-        token,
-        isAuth: !!token,
-        login,
-        logout,
-        updateUser,
-        loading,
+        user: state.user,
+        isAuth: state.isAuth,
+        token: state.token,
+        handleLogin,
+        handleRegister,
+        handleLogout,
       }}
     >
       {children}
@@ -55,5 +91,7 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+// 10. Custom hook
 export const useAuthContext = () => useContext(AuthContext);
+
 export default AuthProvider;

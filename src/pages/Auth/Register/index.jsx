@@ -107,7 +107,7 @@ const Register = () => {
     <div className="flex justify-center items-center min-h-screen bg-blue-700">
       <div className="max-w-3xl w-full p-6 rounded-2xl bg-gray-700 shadow-lg">
         <Form layout="vertical" onFinish={handleSubmit}>
-          <Title level={2} className="!text-center !text-white">
+          <Title level={2} className="text-center! text-white!">
             Register
           </Title>
 
@@ -171,7 +171,7 @@ const Register = () => {
           <Button
             htmlType="submit"
             loading={isProcessing}
-            className="!w-full !bg-blue-600 !text-white"
+            className="w-full! bg-blue-600! text-white!"
           >
             Register
           </Button>
