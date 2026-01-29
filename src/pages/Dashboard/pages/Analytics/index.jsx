@@ -87,7 +87,7 @@ const Analytics = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
         {/* Pie Chart */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
+        <div className="bg-white rounded-2xl shadow-lg p-4">
           <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">
             Notes Distribution
           </h2>

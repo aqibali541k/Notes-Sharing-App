@@ -49,82 +49,61 @@ const Sider = () => {
   ];
 
   return (
-    <>
-      {/* ===== MOBILE OVERLAY ===== */}
-      {isSiderOpen && (
-        <div
-          onClick={() => setIsSiderOpen(false)}
-          className="fixed inset-0 bg-black/40 z-40 sm:hidden"
-        />
-      )}
-
-      {/* ===== SIDER ===== */}
-      <div
-        className={`
-          fixed top-0 left-0 bottom-0 z-50
-          bg-gradient-to-b from-blue-600 via-indigo-600 to-purple-600
-          text-white shadow-xl transition-all duration-300
-          ${isSiderOpen ? "w-60 translate-x-0" : "w-16 -translate-x-full sm:translate-x-0"}
-        `}
-      >
-        {/* ===== TOP ===== */}
-        <div className="flex items-center justify-between p-3 border-b border-white/20">
-          <button
-            onClick={() => setIsSiderOpen(!isSiderOpen)}
-            className="w-10 h-10 flex items-center justify-center bg-white text-black rounded-lg"
+    <div
+      className={`bg-gradient-to-b from-blue-600 to-blue-400 fixed top-0 bottom-0 left-0 z-50 text-white transition-all duration-300
+        ${isSiderOpen ? "w-60" : "w-16"} shadow-lg`}
+    >
+      {/* Top Section */}
+      <div className="flex items-center justify-between  p-3 border-b border-white/20">
+        <button
+          onClick={() => setIsSiderOpen(!isSiderOpen)}
+          className="hidden sm:flex w-10 h-10 items-center justify-center bg-white text-black rounded-lg text-lg"
+        >
+          <MenuOutlined />
+        </button>
+        {isSiderOpen && (
+          <Link
+            to="/"
+            title="Home"
+            className="ml-2 w-10 h-10 flex items-center justify-center bg-white text-black rounded-lg text-lg"
           >
-            <MenuOutlined />
-          </button>
-
-          {isSiderOpen && (
-            <Link
-              to="/"
-              className="w-10 h-10 flex items-center justify-center bg-white text-black rounded-lg"
-            >
-              <HomeFilled />
-            </Link>
-          )}
-        </div>
-
-        {/* ===== MENU ===== */}
-        <nav className="flex flex-col gap-1 mt-4 px-2">
-          {menuItems.map((item) => (
-            <Link
-              key={item.key}
-              to={item.path}
-              onClick={() => {
-                setCurrentTab(item.key);
-                setIsSiderOpen(false);
-              }}
-              className={`
-                group relative flex items-center gap-3 px-3 py-2 rounded-lg
-                transition-all duration-200
-                ${
-                  currentTab === item.key
-                    ? "bg-white text-black font-semibold"
-                    : "hover:bg-white/20"
-                }
-              `}
-            >
-              <span className="text-lg">{item.icon}</span>
-
-              {isSiderOpen && <span>{item.label}</span>}
-
-              {!isSiderOpen && (
-                <span
-                  className="absolute left-14 bg-black text-white text-sm px-2 py-1
-                  rounded-md opacity-0 -translate-x-2
-                  group-hover:opacity-100 group-hover:translate-x-0
-                  transition-all duration-300 whitespace-nowrap z-50"
-                >
-                  {item.label}
-                </span>
-              )}
-            </Link>
-          ))}
-        </nav>
+            <HomeFilled />
+          </Link>
+        )}
       </div>
-    </>
+
+      {/* Menu Links */}
+      <nav className="flex flex-col gap-2 mt-4 relative">
+        {menuItems.map((item) => (
+          <Link
+            key={item.key}
+            to={item.path}
+            // onClick={() => setCurrentTab(item.key)}
+            className={`relative group flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200
+              ${location.pathname === item.path ? "bg-white text-black font-medium" : "hover:bg-blue-500"}`}
+          >
+            {/* Icon */}
+            <span className="text-lg">{item.icon}</span>
+
+            {/* Label when sider open */}
+            {isSiderOpen && (
+              <span className="whitespace-nowrap ">{item.label}</span>
+            )}
+
+            {/* Tooltip when sider closed */}
+            {!isSiderOpen && (
+              <span
+                className="absolute left-14 bg-black text-white text-sm px-2 py-1 rounded-md opacity-0 
+                translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 
+                transition-all duration-300 ease-in-out whitespace-nowrap z-50"
+              >
+                {item.label}
+              </span>
+            )}
+          </Link>
+        ))}
+      </nav>
+    </div>
   );
 };
 

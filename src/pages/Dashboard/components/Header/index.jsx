@@ -20,7 +20,7 @@ const Header = () => {
           className="bg-red-600 text-white px-3 sm:px-4 md:px-6 py-2 rounded-lg text-sm sm:text-base font-semibold 
             hover:bg-white hover:text-red-600 hover:border hover:border-red-600 transition-all duration-200"
         >
-          <LogoutOutlined/>
+          <LogoutOutlined />
         </button>
       </div>
     </header>
